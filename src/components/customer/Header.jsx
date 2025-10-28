@@ -10,7 +10,7 @@ export default function Header({ onCartClick }) {
       <div className="container mx-auto px-4 py-4">
         <div className="flex items-center justify-between">
           <div className="flex items-center space-x-3">
-            <img src="/logo.png" alt="ALFA PETSHOP Logo" className="w-12 h-12 object-contain" />
+            <img src="/logo.png" alt="ALFA PETSHOP Logo" className="w-20 h-20 object-contain" />
             <div>
               <h1 className="text-3xl font-bold">ALFA PETSHOP</h1>
               <p className="text-sm text-purple-100">Teman Terbaik Untuk Hewan Kesayangan</p>
