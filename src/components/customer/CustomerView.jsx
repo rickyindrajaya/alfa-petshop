@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useApp } from '../../contexts/AppContext';
 import Header from './Header';
 import HeroSection from './HeroSection';
@@ -17,6 +17,16 @@ export default function CustomerView() {
   const [orderSuccess, setOrderSuccess] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState('All');
   const [searchQuery, setSearchQuery] = useState('');
+
+  // Check URL parameter for admin access
+  useEffect(() => {
+    const urlParams = new URLSearchParams(window.location.search);
+    if (urlParams.get('admin') === 'true') {
+      setShowLogin(true);
+      // Clean URL after opening login modal
+      window.history.replaceState({}, '', window.location.pathname);
+    }
+  }, []);
 
   // Filter products
   const filteredProducts = products.filter(product => {
