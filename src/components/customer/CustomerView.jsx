@@ -6,6 +6,7 @@ import CategoryFilter from './CategoryFilter';
 import ProductGrid from './ProductGrid';
 import CartSidebar from './CartSidebar';
 import CheckoutModal from './CheckoutModal';
+import ProductDetailModal from './ProductDetailModal';
 import Footer from './Footer';
 import LoginModal from './LoginModal';
 
@@ -14,6 +15,8 @@ export default function CustomerView() {
   const [showCart, setShowCart] = useState(false);
   const [showCheckout, setShowCheckout] = useState(false);
   const [showLogin, setShowLogin] = useState(false);
+  const [showProductDetail, setShowProductDetail] = useState(false);
+  const [selectedProduct, setSelectedProduct] = useState(null);
   const [orderSuccess, setOrderSuccess] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState('All');
   const [searchQuery, setSearchQuery] = useState('');
@@ -41,12 +44,26 @@ export default function CustomerView() {
     setTimeout(() => setOrderSuccess(false), 3000);
   };
 
+  const handleViewDetail = (product) => {
+    setSelectedProduct(product);
+    setShowProductDetail(true);
+  };
+
+  const handleCloseDetail = () => {
+    setShowProductDetail(false);
+    setSelectedProduct(null);
+  };
+
   return (
     <div className="min-h-screen bg-gray-50">
       <Header onCartClick={() => setShowCart(true)} />
       <HeroSection searchQuery={searchQuery} onSearchChange={setSearchQuery} />
       <CategoryFilter selectedCategory={selectedCategory} onCategoryChange={setSelectedCategory} />
-      <ProductGrid products={filteredProducts} onAddToCart={addToCart} />
+      <ProductGrid 
+        products={filteredProducts} 
+        onAddToCart={addToCart}
+        onViewDetail={handleViewDetail}
+      />
       <Footer onAdminClick={() => setShowLogin(true)} />
 
       <CartSidebar
@@ -59,6 +76,13 @@ export default function CustomerView() {
         isOpen={showCheckout}
         onClose={() => setShowCheckout(false)}
         onSuccess={handleOrderSuccess}
+      />
+
+      <ProductDetailModal
+        product={selectedProduct}
+        isOpen={showProductDetail}
+        onClose={handleCloseDetail}
+        onAddToCart={addToCart}
       />
 
       <LoginModal
